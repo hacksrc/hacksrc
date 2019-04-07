@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'com.hackathonsrc.com'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+mainClassName = 'Main'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout-swing
+    compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.2'
+    // https://mvnrepository.com/artifact/com.jtattoo/JTattoo
+    compile group: 'com.jtattoo', name: 'JTattoo', version: '1.6.11'
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
