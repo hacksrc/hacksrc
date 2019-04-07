@@ -1,8 +1,10 @@
-project(":gui") {
-    apply plugin: 'application'
+group 'com.hackathonsrc.com'
+version '1.0-SNAPSHOT'
 
-    dependencies {
-        compile project(":game-engine")
+apply plugin:'application'
 
-    }
+mainClassName='Main'
+
+dependencies {
+
 }
