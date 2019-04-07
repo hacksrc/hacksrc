@@ -1,0 +1,19 @@
+@startuml
+(App Detracts From Experience) as ADFE
+(Don't Mane Decisions) as DMD
+(Distract Players) as DP
+(Don't Take Power Away From DM) as DTPAFD
+(Replace Core Experience) as RCE
+
+(Replace Dice Rolling) as RDR
+
+title Overall Goals Not Todo Diagram
+
+ADFE *-- DMD
+ADFE *-- DP
+ADFE *-- DTPAFD
+ADFE *-- RCE
+
+RCE *-- RDR
+
+@enduml

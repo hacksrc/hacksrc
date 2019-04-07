@@ -1,0 +1,71 @@
+@startuml
+(Improve Player Engagement) as IPE
+(Public Information) as PI
+(Enviroment Presentation) as EP
+(Inventory Management) as IM
+
+(Audio) as A
+(Play on DM Device) as PDD
+(Interface for Controlling) as IFC
+(Audio Playback) as AP
+(State Machine) as STM
+(Play the F!#@ing Audio) as PTFA
+(Catalog of Sounds) as COS
+(Playlist of Music) as POM
+(Store Playlist) as SP
+(View Playlist) as VP
+
+(Hardware Peripherals) as HP
+(Lights) as L
+(Set Mood) as SM
+(Display Public Information) as DPI
+(Display Player Turn) as DPT
+(Display Color of Player whose turn it is) as DCP
+(Assign Colors to Player) as ACP
+(Let Player Choose Unique Color) as LPCUC
+(Specify Sequence) as SS
+(Specify per LED) as SPL
+(Specify Color) as SC
+(Specifty Pattern) as SPT
+(Specify Duration) as SD
+
+
+title Improve Player Engagement Goal Diagram
+
+IPE *-- PI
+IPE *-- EP
+IPE *-- IM
+
+EP *-- A
+EP *-- HP
+
+A *-- PDD
+A *-- COS
+A *-- POM
+
+PDD *-- IFC
+PDD *-- AP
+
+AP *-- STM
+AP *-- PTFA
+
+POM *-- SP
+POM *-- VP
+
+HP *-- L
+
+L *-- SM
+L *-- DPI
+
+SM *-- SS
+SS *-- SPL
+SS *-- SC
+SS *-- SPT
+SS *-- SD
+
+DPI *-- DPT
+DPT *-- DCP
+DPT *-- ACP
+ACP *-- LPCUC
+
+@enduml

@@ -1,0 +1,91 @@
+@startuml
+
+(Combat Logistics) as CL
+
+(Initative Tracking) as IT
+(Contain Initavies) as CI
+(Represent Turn Order) as RTO
+(Sort Initative) as SI
+(Track Turns) as TT
+(Display Turn Order) as DTO
+(Display Out of Order Events) as DOOE
+
+(Combat Math) as CM
+(Combatant Data) as CD
+(Composition Architecture) as CA
+(Combat Process) as CP
+(Status & Conditions) as SAC
+(To-hit comparisons) as TC
+(Roll Modification) as RM
+
+(Encounter Builder) as EB
+(Determine Difficulty) as DD
+(Define Target Difficulty) as DTD
+(Calculate Experience Total) as CET
+(Know Player Levels) as KPL
+(Suggest Monsters) as SM
+(Match Difficulty) as MD
+(Calculate Modified Monster XP) as CMMX
+(Store Monster XP) as SMX
+(Reference Encounter) as RE
+(Save Encounter) as SE
+(Save Combatant Data) as SCD
+
+(Monster Reference) as MR
+(Contain Monster Information) as CMI
+(Use Monster Info) as UMI
+(Add Monster Information) as AMI
+(Save Monster Information) as SMI
+(Use in Contexts) as UIC
+(Intiative Named) as IN
+(Combat Data) as CBD
+(Lookup by Property) as LBP
+(Manual Input) as MI
+(Load Data) as LD
+
+title Combat Logistics Goal Diagram
+
+CL *-- IT
+CL *-- CM
+CL *-- EB
+CL *-- MR
+
+IT *-- CI
+IT *-- RTO
+IT *-- SI
+
+RTO *-- TT
+RTO *-- DTO
+RTO *-- DOOE
+
+CM *-- CP
+CM *-- SAC
+CM *-- CD
+CM *-- TC
+CM *-- RM
+CD *-- CA
+
+EB *-- DD
+EB *-- SM
+EB *-- RE
+DD *-- DTD
+DD *-- CET
+CET *-- KPL
+SM *-- MD
+MD *-- CMMX
+MD *-- SMX
+RE *-- SE
+RE *-- SCD
+
+MR *-- CMI
+CMI *-- UMI
+CMI *-- AMI
+CMI *-- SMI
+UMI *-- UIC
+UIC *-- IN
+UIC *-- CBD
+UIC *-- LBP
+AMI *-- MI
+AMI *-- LD
+
+@enduml

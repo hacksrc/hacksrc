@@ -1,0 +1,81 @@
+@startuml
+(Improve Tabletop Gaming Experience) as ITGE
+(Improve Combat Flow) as ICF
+(Improve DM-Player Communication) as IDC
+(Improve Player Engagement) as IPE
+
+(Combat Logistics) as CL
+(Enumerate Possible Actions) as EPA
+
+(Resource Tracking) as RT
+(Heath) as H
+(Spells) as SP
+(Consumables) as C
+
+(Initative Tracking) as IT
+(Combat Math) as CM
+(Encounter Builder) as EB
+(Mechanics Reference) as MR
+(Status Effects) as SE
+(Determine Difficulty) as DD
+(Suggest Monsters) as SM
+(Mechanics Reference) as MR
+(Monster Reference) as MonR
+(Spells And Abilities) as SAA
+(Equipment) as EQ
+(Status And Conditions) as SAC 
+
+(Public Information) as PBI
+(Private Information) as PVI
+(Scheduling Session) as SS
+(Player Data) as PD
+
+(Audio) as AUD
+(Hardware Peripheral) as HP
+(Enviroment Presentation) as EP
+(Inventory Management) as IM
+
+title Overall Goal Diagram
+
+ITGE *-- ICF
+ITGE *-- IDC
+ITGE *-- IPE
+ITGE *-- RT
+
+RT *-- H
+RT *-- SP
+RT *-- C
+
+ICF *-- EPA
+ICF *-- CL
+
+CL *-- IT
+CL *-- CM
+CL *-- EB
+CL *-- MR
+
+CM *-- SE
+
+EB *-- DD
+EB *-- SM
+
+MR *-- MonR
+MR *-- SAA
+MR *-- EQ
+MR *-- SAC
+
+IDC *-- PBI
+IDC *-- PVI
+IDC *-- PD
+IDC *-- SS
+
+IPE *-- PBI
+IPE *-- AUD
+IPE *-- HP
+IPE *-- EP
+IPE *-- IM
+
+AUD *-- EP
+HP *-- EP
+
+@enduml
