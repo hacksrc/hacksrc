@@ -142,13 +142,13 @@ def find_msg_hdr(data):
 '''
 	color functions
 '''
-def fireWall(strip):
+def fireWall(strip, duration):
   for i in range(0,LIGHT_ARRAY_LENGTH):
     strip.setPixelColor(i, RED)
 
   strip.show()
 
-  endTime = time.time() + 10.0
+  endTime = time.time() + duration
 
   while (endTime > time.time()):
     randomLedIndex = random.randint(0,LIGHT_ARRAY_LENGTH)
@@ -180,14 +180,14 @@ def showPlayerColor(strip, color, duration):
     strip.setPixelColor(led+LIGHTSHIFT, OFF)
   strip.show()
 
-def levelUp(strip, color):
+def levelUp(strip, color, duration):
 
   for i in range(0,LIGHT_ARRAY_LENGTH):
     strip.setPixelColor(i, color)
 
   strip.show()
 
-  endTime = time.time() + 10.0
+  endTime = time.time() + duration
 
   pixelIndex = 0
   forward = True
@@ -279,9 +279,9 @@ if __name__ == "__main__":
 		
 		# call a command
 		if (effect == mEffectCmdFire):
-			fireWall(strip)
+			fireWall(strip, duration)
 		elif (effect == mEffectCmdLevel):
-			levelUp(strip, playerColorLookup(color))
+			levelUp(strip, playerColorLookup(color), duration)
 		elif (color != ''):
 			showPlayerColor(strip, playerColorLookup(color), duration)
 		else:
