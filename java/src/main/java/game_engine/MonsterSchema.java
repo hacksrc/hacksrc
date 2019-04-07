@@ -91,7 +91,5 @@ public class MonsterSchema
         return mMonster.mPage;
     }
 
-    public static Comparator<MonsterSchema> mComparator =
-        (MonsterSchema m1, MonsterSchema m2)->m1.getName().compareTo(m2.getName());
     private Monster mMonster;
 }
