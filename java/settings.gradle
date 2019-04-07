@@ -1,2 +1,4 @@
 rootProject.name = 'dnd-app'
-
+include 'game-engine'
+include 'web-server'
+include 'gui'

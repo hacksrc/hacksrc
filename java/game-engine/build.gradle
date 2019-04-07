@@ -1,5 +1,6 @@
-project(":game-engine") {
-    dependencies {
+group 'com.hackathonsrc.com'
+version '1.0-SNAPSHOT'
 
-    }
+dependencies {
+
 }
