@@ -6,9 +6,10 @@ public class Encounter
 {
     public Encounter(String name, int playerBudget, MonsterList list)
     {
-        mPlayerBudget = mMonsterBudget = playerBudget;
+        mPlayerBudget = playerBudget;
         mList = list;
         mEncounterName = name;
+        mMonsters = new HashMap<>();
     }
 
     // Suggest monsters that fit within the current xp budget
@@ -41,23 +42,23 @@ public class Encounter
         float modifier = 1;
         if(num_monsters >= 15)
         {
-            modifier *= 4;
+            modifier = 4;
         }
         else if(num_monsters >= 11)
         {
-            modifier *= 3;
+            modifier = 3;
         }
         else if(num_monsters >= 7)
         {
-            modifier *= 2.5f;
+            modifier = 2.5f;
         }
         else if(num_monsters >= 3)
         {
-            modifier *= 2;
+            modifier = 2;
         }
         else if(num_monsters == 2)
         {
-            modifier *= 1.5f;
+            modifier = 1.5f;
         }
         return (int)((mPlayerBudget - (modifier * mMonsterBudget))/modifier);
     }
