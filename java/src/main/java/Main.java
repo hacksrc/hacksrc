@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -33,12 +34,10 @@ public class Main
         LookAndFeelInfo[] plafs = UIManager.getInstalledLookAndFeels();
         for (LookAndFeelInfo info : plafs)
         {
-            System.err.println("Main::setLookAndFeel - info.name: " + info.getName());
             if (info.getName().contains(lookAndFeelName)) {
                 return info.getClassName();
             }
         }
-
         return null;
     }
 
@@ -50,8 +49,10 @@ public class Main
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         MainPanel mainPanel = new MainPanel();
-        frame.getContentPane().setLayout(new MigLayout("fill, insets 0", "[]", "[][]"));
-        frame.getContentPane().add(mainPanel, "dock north");
+//        frame.getContentPane().setLayout(new MigLayout("fill, insets 0", "", ""));
+        frame.getContentPane().setLayout(new BorderLayout());
+//        frame.getContentPane().add(mainPanel, "dock north");
+        frame.getContentPane().add(mainPanel);
 
         frame.pack();
         frame.setVisible(true);
