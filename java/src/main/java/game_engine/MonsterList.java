@@ -1,6 +1,11 @@
+// MonsterList.java
 package game_engine;
 
-import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Comparator;
 
 public class MonsterList
 {
@@ -30,6 +35,34 @@ public class MonsterList
         });
         valid_list.sort(Comparator.comparing(MonsterSchema::getName));
         return valid_list;
+    }
+
+    // Saves all stored monsters to a file
+    public void SaveMonsters(String filename)
+    {
+        try
+        {
+            FileWriter file = new FileWriter(filename);
+            mMonsterMap.forEach((k,v)->
+            {
+                for (MonsterSchema monster : v)
+                {
+                    try
+                    {
+                        file.write(monster.getCSV() + "\n");
+                    }
+                    catch(IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            file.close();
+        }
+        catch(IOException except)
+        {
+            except.printStackTrace();
+        }
     }
 
     private HashMap<Integer, LinkedList<MonsterSchema>> mMonsterMap = new HashMap<>();

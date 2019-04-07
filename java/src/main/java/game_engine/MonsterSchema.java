@@ -1,8 +1,6 @@
 // MonsterSchema.java
 package game_engine;
 
-import java.util.Comparator;
-
 public class MonsterSchema
 {
     public class Monster
@@ -89,6 +87,16 @@ public class MonsterSchema
     public int getPageNumber()
     {
         return mMonster.mPage;
+    }
+
+    // Get CSV representation
+    public String getCSV()
+    {
+        return "" + mMonster.mName
+            + "," + mMonster.mMaxHp
+            + "," + mMonster.mArmor
+            + "," + mMonster.mXpCost
+            + "," + mMonster.mPage;
     }
 
     private Monster mMonster;
