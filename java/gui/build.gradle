@@ -1,0 +1,8 @@
+project(":gui") {
+    apply plugin: 'application'
+
+    dependencies {
+        compile project(":game-engine")
+
+    }
+}
