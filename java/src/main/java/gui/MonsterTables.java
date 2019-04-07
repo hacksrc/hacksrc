@@ -5,7 +5,7 @@ import game_engine.MonsterSuggestionSet;
 
 import javax.swing.*;
 
-public class MonsterTables extends JPanel
+public class MonsterTables
 {
     public void ReopulateTables(Encounter encounter)
     {
