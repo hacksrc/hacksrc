@@ -19,12 +19,20 @@ mHdrMsgVersionNum = 0
 mHdrMsgPayloadLen = 3
 mHdrMsgHdrLen = 24
 
+mHdrMsgMagicByte = b'\x00\x00\x00\x07'
+
+'''
+	parse_msg_payload: parse out the payload data from the buffer
+'''
 def parse_msg_payload(msg_id, data):
 	effect, color, duration = unpack_from('>III', data)
 	if msg_id == mHdrMsgEffectId:
 		print("SERV: effect={}, color={},  duration={}".format(effect, color, duration))
 	return [effect, color, duration]
 
+'''
+	validate the header data against expected values
+'''
 def validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len):
 	if inp_msg_hdr != mHdrMsgMagic:
 		print("SERV: invalid message header: {} != {}".format(inp_msg_hdr, mHdrMsgMagic))
@@ -40,6 +48,9 @@ def validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_l
 		return False
 	return True
 
+'''
+	get the header's message ID
+'''
 def get_hdr_msg_id(hdr):
 	try:
 		# read out the header data
@@ -49,6 +60,9 @@ def get_hdr_msg_id(hdr):
 		print("SERV: failed to parse input data: len={}".format(len(hdr)))
 		return -1
 
+'''
+	pull the header data in buffer hdr and validate the header message
+'''
 def valid_msg_hdr(hdr):
 	if len(hdr) < mHdrMsgLen:
 		print("SERV: input data is invalid for a header {} != {}".format(len(hdr), mHdrMsgLen))
@@ -67,8 +81,11 @@ def valid_msg_hdr(hdr):
 		print("SERV: failed to parse input data: len={}".format(len(hdr)))
 		return False
 
+'''
+	look through buffer data for our magic header
+'''
 def find_msg_hdr(data):
-	sub = data.find(b'\x00\x00\x00\x07')
+	sub = data.find(mHdrMsgMagicByte)
 	if sub != -1:
 		if mDebug > 1:
 			print("SERV: magic header found at: {}".format(sub))
