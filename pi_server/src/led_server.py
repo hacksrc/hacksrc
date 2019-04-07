@@ -17,24 +17,15 @@ mHdrMsgHeartbeatId = 0
 mHdrMsgEffectId = 1
 mHdrMsgVersionNum = 0
 mHdrMsgPayloadLen = 3
+mHdrMsgHdrLen = 24
 
-def parse_msg_payload(msg_id, effect, color, duration):
-	print "python"
-	if (msg_id == mHdrMsgHeartbeatId):
-		# send in heartbeat
-		print("SERV: got heartbeat")
-		return True
-	elif (msg_id == mHdrMsgEffectId):
-		# send in led command
-		print("SERV: LED command: effect={}, color={}, duration={}".format(effect, color, duration))
-		return True
-	else:
-		# send in led command
-		print("SERV: unsupported command")
-		return False
+def parse_msg_payload(msg_id, data):
+	effect, color, duration = unpack_from('>III', data)
+	if msg_id == mHdrMsgEffectId:
+		print("SERV: effect={}, color={},  duration={}".format(effect, color, duration))
+	return [effect, color, duration]
 
 def validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len):
-	print "hello"
 	if inp_msg_hdr != mHdrMsgMagic:
 		print("SERV: invalid message header: {} != {}".format(inp_msg_hdr, mHdrMsgMagic))
 		return False
@@ -47,28 +38,44 @@ def validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_l
 	if inp_msg_len != mHdrMsgPayloadLen:
 		print("SERV: invalid message payload length: {} != {}".format(inp_msg_len, mHdrMsgPayloadLen))
 		return False
-	print "world"
 	return True
 
+def get_hdr_msg_id(hdr):
+	try:
+		# read out the header data
+		inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len = unpack_from('>IIIQI', hdr)
+		return inp_msg_id
+	except:
+		print("SERV: failed to parse input data: len={}".format(len(hdr)))
+		return -1
 
-def parse_msg(hdr):
+def valid_msg_hdr(hdr):
 	if len(hdr) < mHdrMsgLen:
 		print("SERV: input data is invalid for a header {} != {}".format(len(hdr), mHdrMsgLen))
 		return False
 
 	try:
 		# read out the header data
-		inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len, effect, color, duration = unpack('>IIIQIIII', hdr)
+		inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len = unpack_from('>IIIQI', hdr)
 
 		if mDebug:
 			print("SERV: found header: {}, {}, {}, {}, {}".format(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len))
 
-		if validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len):
-			return parse_msg_payload(inp_msg_id, effect, color, duration)
+		return validate_msg_hdr(inp_msg_hdr, inp_msg_id, inp_msg_ver, inp_msg_ts, inp_msg_len)
 
 	except:
 		print("SERV: failed to parse input data: len={}".format(len(hdr)))
 		return False
+
+def find_msg_hdr(data):
+	sub = data.find(b'\x00\x00\x00\x07')
+	if sub != -1:
+		if mDebug > 1:
+			print("SERV: magic header found at: {}".format(sub))
+	else:
+		if mDebug > 2:
+			print("SERV: magic header not in data")
+	return sub
 
 
 if __name__ == "__main__":
@@ -77,9 +84,6 @@ if __name__ == "__main__":
 	mSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	mServerIpAddress = ('192.168.1.97', 1337)
 	mSocket.bind(mServerIpAddress)
-
-	# server messaging
-	mMsgHeaderBuf = bytearray(35)
 
 	# start the server
 	mSocket.listen(1)
@@ -92,19 +96,28 @@ if __name__ == "__main__":
 	while True:
 
 		# wait for a message
-		if mDebug:
+		if mDebug > 2:
 			print("SERV: waiting for DM header")
 		data = mConnection.recv(48)
 
-		file = open("server.hex", "w")
-		file.write(data)
-		file.close()
+		# search for the header 
+		pos = find_msg_hdr(data)
+		if pos == -1:
+			if mDebug > 2:
+				print("SERV: magic header not found")
+			continue
+		else:
+			data = data[pos:]
+			if mDebug:
+				print("SERV: magic header not found")
 
 		# parse the header
 		if mDebug:
 			print("SERV: got DM message")
-		if not parse_msg(data):
-			print("SERV: failed to read data, closing server")
-			mSocket.close()
-			sys.exit()
+		if not valid_msg_hdr(data):
+			print("SERV: failed to parse header, ignoring")
+
+		msg_id = get_hdr_msg_id(data)
+		data = data[mHdrMsgHdrLen:]
+		effect, color, duration = parse_msg_payload(msg_id, data)
 		data = ""
