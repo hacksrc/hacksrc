@@ -2,14 +2,15 @@ package game_engine;
 
 public class XpBudget
 {
-    enum Difficulty
+    public enum Difficulty
     {
         EASY,
         MEDIUM,
         HARD,
         DEADLY
-    };
+    }
 
+    // Create an xp budget for the intended difficulty.
     public XpBudget(Difficulty difficulty)
     {
         switch(difficulty)
@@ -29,11 +30,13 @@ public class XpBudget
         }
     }
 
+    // Add a more experience to the budget based on the XP table
     public void AddPlayer(int level)
     {
         mXpBudget += mXpThresholdMap[mDifficulty][level];
     }
 
+    // Get the XP budget total
     public int GetXpBudget()
     {
         return mXpBudget;

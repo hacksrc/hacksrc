@@ -9,6 +9,12 @@ import java.util.Comparator;
 
 public class MonsterList
 {
+    public MonsterList() {}
+    public MonsterList(MonsterList other)
+    {
+        other.mMonsterMap.forEach((k,v)->this.mMonsterMap.put(k, v));
+    }
+
     // Add a monster to the collection
     public void AddMonster(MonsterSchema monster)
     {
@@ -20,21 +26,26 @@ public class MonsterList
         }
         list = mMonsterMap.get(xp_cost);
         list.add(monster);
+        list.sort(Comparator.comparing(MonsterSchema::getName));
     }
 
     // Return a sorted list of all monsters at or below maxXp
-    public LinkedList<MonsterSchema> GetMonsters(int maxXp)
+    public MonsterSuggestionSet FilterByXp(int maxXp)
     {
-        LinkedList<MonsterSchema> valid_list = new LinkedList<>();
+        LinkedList<MonsterSchema> on_budget = new LinkedList<>();
+        LinkedList<MonsterSchema> off_budget = new LinkedList<>();
         mMonsterMap.forEach((k,v)->
         {
-            if(k >= maxXp)
+            if(k > maxXp)
             {
-                valid_list.addAll(v);
+                off_budget.addAll(v);
+            }
+            else
+            {
+                on_budget.addAll(v);
             }
         });
-        valid_list.sort(Comparator.comparing(MonsterSchema::getName));
-        return valid_list;
+        return new MonsterSuggestionSet(on_budget, off_budget);
     }
 
     // Saves all stored monsters to a file

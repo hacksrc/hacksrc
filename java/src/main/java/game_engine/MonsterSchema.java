@@ -5,9 +5,9 @@ public class MonsterSchema
 {
     public class Monster
     {
-        Monster(Monster other)
+        Monster(Monster other, String uniqueName)
         {
-            mName = other.mName;
+            mName = uniqueName;
             mMaxHp = mCurrentHp = other.mMaxHp;
             mArmor = other.mArmor;
             mXpCost = other.mXpCost;
@@ -54,9 +54,9 @@ public class MonsterSchema
     }
 
     // Gets a monster object created from this schema.
-    public Monster GetMonster()
+    public Monster GetMonster(String monsterName)
     {
-        return new Monster(mMonster);
+        return new Monster(mMonster, monsterName);
     }
 
     // Get the name
